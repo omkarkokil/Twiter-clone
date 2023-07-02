@@ -7,8 +7,10 @@ import {
 } from "react-icons/bs";
 import { BiSolidHomeCircle, BiSearch, BiHash } from "react-icons/bi";
 import { HiMail } from "react-icons/hi";
-import FeedCard from "@/components/FeedCard";
+import FeedCard from "@/components/MiddleSection/FeedCard";
 import GoogleButton from "@/components/GoogleButton";
+import UserBatch from "@/components/UserBatch";
+import TweetInput from "@/components/MiddleSection/TweetInput";
 
 export default function Home() {
   interface TwitterSideBarButton {
@@ -44,10 +46,11 @@ export default function Home() {
       icon: <BsFillPersonFill />,
     },
   ];
+
   return (
     <div>
       <div className="grid grid-cols-12 h-screen w-screen ">
-        <div className="col-span-3 pt-4 flex flex-col items-end pr-20">
+        <div className="col-span-3 pt-4 flex flex-col justify-between items-end pr-20">
           <div>
             <div className="text-3xl w-fit hover:bg-gray-800 rounded-full p-2 cursor-pointer transition-all">
               <BsTwitter />
@@ -71,8 +74,10 @@ export default function Home() {
               </div>
             </div>
           </div>
+          <UserBatch />
         </div>
         <div className="col-span-5 border border-r-[.5] border-l-[.5] border-gray-800">
+          <TweetInput />
           <FeedCard />
           <FeedCard />
           <FeedCard />

@@ -25,8 +25,8 @@ const GoogleButton: React.FC = () => {
       toast.success("Verified Success");
       if (verifyGoogleToken) {
         window.localStorage.setItem("__twitter_token", verifyGoogleToken);
-        await queryClient.invalidateQueries(["current-user"]);
       }
+      await queryClient.invalidateQueries(["current-user"]);
     },
     [queryClient]
   );

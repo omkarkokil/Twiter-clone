@@ -9,7 +9,7 @@ import {
 
 const FeedCard: FC = () => {
   return (
-    <div className="border border-gray-800 border-x-0 border-t-0 p-4 hover:bg-[#111] transition-all cursor-pointer ">
+    <div className="border border-gray-800 border-x-0  p-4 hover:bg-[#111] transition-all cursor-pointer ">
       <div className="grid grid-cols-12 gap-3">
         <div className="col-span-1">
           <Image
