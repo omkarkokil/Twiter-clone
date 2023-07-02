@@ -9,6 +9,7 @@ import { BiSolidHomeCircle, BiSearch, BiHash } from "react-icons/bi";
 import { HiMail } from "react-icons/hi";
 import { Inter } from "next/font/google";
 import FeedCard from "@/components/FeedCard";
+import GoogleButton from "@/components/GoogleButton";
 
 export default function Home() {
   interface TwitterSideBarButton {
@@ -78,7 +79,12 @@ export default function Home() {
           <FeedCard />
           <FeedCard />
         </div>
-        <div className="col-span-4 "></div>
+        <div className="col-span-3 p-5">
+          <div className="rounded-lg  p-5 bg-slate-500">
+            <h1 className="text-xl">New to twitter?</h1>
+            <GoogleButton />
+          </div>
+        </div>
       </div>
     </div>
   );
