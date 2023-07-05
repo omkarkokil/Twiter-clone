@@ -6,30 +6,34 @@ import {
   AiOutlineRetweet,
   AiOutlineUpload,
 } from "react-icons/ai";
+import { Tweet } from "@/gql/graphql";
 
-const FeedCard: FC = () => {
+interface FeedCardProps {
+  data: Tweet;
+}
+
+const FeedCard: FC<FeedCardProps> = (props) => {
+  const { data } = props;
+
   return (
     <div className="border border-gray-800 border-x-0  p-4 hover:bg-[#111] transition-all cursor-pointer ">
       <div className="grid grid-cols-12 gap-3">
         <div className="col-span-1">
-          <Image
-            height={50}
-            width={50}
-            className="rounded-full"
-            src={
-              "https://avatars.githubusercontent.com/u/98259743?s=400&u=a6292d3c6a741ce89c0cc71aa77f7d893108fa74&v=4"
-            }
-            alt="none"
-          />
+          {data.author?.profileImageURL && (
+            <Image
+              height={50}
+              width={50}
+              className="rounded-full"
+              src={data.author?.profileImageURL}
+              alt="none"
+            />
+          )}
         </div>
         <div className="col-span-11">
-          <h5 className="text-md">Electric Node</h5>
-          <p className="text-xs">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium
-            facere saepe harum excepturi laudantium eius, labore aspernatur!
-            Consequuntur quaerat numquam eius veniam facilis soluta commodi
-            maiores id placeat? Voluptate, itaque!
-          </p>
+          <h5 className="text-md">
+            {data.author?.firstName} {data.author?.lastName}
+          </h5>
+          <p className="text-xs">{data.content}</p>
           <div className=" mt-4 text-lg flex items-center w-[70%] justify-between">
             <div>
               <BiMessageRoundedDots />

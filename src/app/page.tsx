@@ -8,9 +8,10 @@ import {
 import { BiSolidHomeCircle, BiSearch, BiHash } from "react-icons/bi";
 import { HiMail } from "react-icons/hi";
 import FeedCard from "@/components/MiddleSection/FeedCard";
-import GoogleButton from "@/components/GoogleButton";
-import UserBatch from "@/components/UserBatch";
+import GoogleButton from "@/components/RightSection/GoogleButton";
+import UserBatch from "@/components/LeftSection/UserBatch";
 import TweetInput from "@/components/MiddleSection/TweetInput";
+import FeedHolder from "@/components/MiddleSection/FeedHolder";
 
 export default function Home() {
   interface TwitterSideBarButton {
@@ -78,10 +79,7 @@ export default function Home() {
         </div>
         <div className="col-span-5 border border-r-[.5] border-l-[.5] border-gray-800">
           <TweetInput />
-          <FeedCard />
-          <FeedCard />
-          <FeedCard />
-          <FeedCard />
+          <FeedHolder />
         </div>
         <div className="col-span-3 p-5">
           <GoogleButton />

@@ -3,7 +3,7 @@ import React, { useCallback } from "react";
 import { toast } from "react-hot-toast";
 import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 import { graphqlClient } from "@/client/api";
-import { VerifyGoogleUserTokenQuery } from "@/graphql/query/user";
+import { VerifyGoogleUserTokenQuery } from "../../graphql/query/user";
 import { useCurrentUser } from "@/hooks/user";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -25,8 +25,8 @@ const GoogleButton: React.FC = () => {
       toast.success("Verified Success");
       if (verifyGoogleToken) {
         window.localStorage.setItem("__twitter_token", verifyGoogleToken);
+        await queryClient.invalidateQueries(["curent-user"]);
       }
-      await queryClient.invalidateQueries(["current-user"]);
     },
     [queryClient]
   );

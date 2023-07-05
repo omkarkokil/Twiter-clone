@@ -21,9 +21,9 @@ const UserBatch: React.FC = () => {
           )}
           <div>
             <h4 className="text-sm">
-              {user.firstName} {user.LastName}
+              {user?.firstName} {user?.lastName}
             </h4>
-            <h6 className="text-xs">{user.email}</h6>
+            <h6 className="text-xs">{user?.email}</h6>
           </div>
         </div>
       )}

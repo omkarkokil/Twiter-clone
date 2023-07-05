@@ -1,4 +1,4 @@
-import { graphql } from "../../../gql";
+import { graphql } from "../../gql";
 
 export const VerifyGoogleUserTokenQuery = graphql(`
   query VerifyUserGoogleToken($token: String!) {
@@ -14,7 +14,7 @@ export const getCurrentUserQuery = graphql(`
       profileImageURL
       email
       firstName
-      LastName
+      lastName
     }
   }
 `);
