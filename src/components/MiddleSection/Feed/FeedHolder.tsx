@@ -1,3 +1,5 @@
+"use client";
+
 import React, { FC } from "react";
 import FeedCard from "./FeedCard";
 import { Tweet } from "@/gql/graphql";
@@ -6,24 +8,29 @@ import { GetAllTweetsQuery } from "@/graphql/query/tweets";
 import { notFound } from "next/navigation";
 import { useGetAllTweets } from "@/hooks/tweets";
 
-const getServerSideProps = async () => {
-  const userinfo = await graphqlClient.request(GetAllTweetsQuery);
+// const getServerSideProps = async () => {
+//   const userinfo = await graphqlClient.request(GetAllTweetsQuery);
 
-  if (!userinfo.getAllTweets) return notFound();
+//   if (!userinfo.getAllTweets) return notFound();
 
-  return {
-    tweets: userinfo.getAllTweets,
-  };
-};
+//   return {
+//     tweets: userinfo.getAllTweets,
+//   };
+// };
 
-const FeedHolder: FC = async () => {
-  const tweet = await getServerSideProps();
+interface TweetArray {
+  tweets?: Tweet[];
+}
 
-  // const { tweets = tweet.tweets } = useGetAllTweets();
+const FeedHolder: FC<TweetArray> = (props) => {
+  // const tweet = await getServerSideProps();
+  console.log(props);
+
+  const { tweets = props.tweets } = useGetAllTweets();
 
   return (
     <>
-      {tweet.tweets?.map((tweet) => (
+      {tweets?.map((tweet) => (
         <FeedCard key={tweet?.id} data={tweet as Tweet} />
       ))}
     </>
