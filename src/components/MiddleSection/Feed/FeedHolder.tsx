@@ -4,6 +4,7 @@ import { Tweet } from "@/gql/graphql";
 import { graphqlClient } from "@/client/api";
 import { GetAllTweetsQuery } from "@/graphql/query/tweets";
 import { notFound } from "next/navigation";
+import { useGetAllTweets } from "@/hooks/tweets";
 
 const getServerSideProps = async () => {
   const userinfo = await graphqlClient.request(GetAllTweetsQuery);
@@ -16,8 +17,9 @@ const getServerSideProps = async () => {
 };
 
 const FeedHolder: FC = async () => {
-  // const { tweets = [] } = useGetAllTweets();
   const tweet = await getServerSideProps();
+
+  // const { tweets = tweet.tweets } = useGetAllTweets();
 
   return (
     <>

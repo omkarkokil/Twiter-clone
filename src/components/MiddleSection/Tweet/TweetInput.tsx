@@ -1,14 +1,20 @@
 "use client";
 
-import { useCreateTweet } from "@/hooks/tweets";
+import { Tweet } from "@/gql/graphql";
+import { useCreateTweet, useGetAllTweets } from "@/hooks/tweets";
 import { useCurrentUser } from "@/hooks/user";
 import Image from "next/image";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { BsImageFill } from "react-icons/bs";
+import FeedHolder from "../Feed/FeedHolder";
+
+interface InputProps {
+  data?: Tweet[];
+}
 
 const TweetInput: React.FC = () => {
   const { user } = useCurrentUser();
-  const { mutate } = useCreateTweet();
+  const { mutate, mutateAsync } = useCreateTweet();
 
   const handleSelectImage = useCallback(() => {
     const input = document.createElement("input");
@@ -19,12 +25,12 @@ const TweetInput: React.FC = () => {
 
   const [content, setContent] = useState("");
 
-  const handleCreateTweet = useCallback(() => {
-    mutate({
+  const handleCreateTweet = useCallback(async () => {
+    await mutateAsync({
       content,
     });
     setContent("");
-  }, [content, mutate]);
+  }, [content, mutateAsync]);
   return (
     <>
       <div className="grid grid-cols-12 gap-3 p-4">
@@ -68,3 +74,6 @@ const TweetInput: React.FC = () => {
 };
 
 export default TweetInput;
+function mutateAsync(arg0: { content: string }) {
+  throw new Error("Function not implemented.");
+}

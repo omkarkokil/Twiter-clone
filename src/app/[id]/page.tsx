@@ -6,11 +6,14 @@ import { getUserByIdQuery } from "@/graphql/query/user";
 import { notFound } from "next/navigation";
 
 import Image from "next/image";
-import React from "react";
+import React, { FC } from "react";
 import { BsArrowLeftShort } from "react-icons/bs";
 import Link from "next/link";
+import { useCurrentUser } from "@/hooks/user";
+import { NextRouter } from "next/router";
+import FollowButton from "./layouts/FollowButton";
 
-const getServerSideProps = async (context: any) => {
+const getServerSideUserProps = async (context: any) => {
   const id = context.id as string | undefined;
 
   if (!id) return notFound();
@@ -27,7 +30,9 @@ const getServerSideProps = async (context: any) => {
 };
 
 const Profile = async ({ params }: { params: any }) => {
-  const user = await getServerSideProps(params);
+  const user = await getServerSideUserProps(params);
+
+  // const { user: currentUser } = useCurrentUser();
 
   return (
     <div>
@@ -64,6 +69,24 @@ const Profile = async ({ params }: { params: any }) => {
             <h1 className="text-xl mt-4 font-bold px-2">
               {user?.userInfo.firstName} {user?.userInfo.lastName}
             </h1>
+            <div className="flex items-center justify-between px-2">
+              <div className="px-2 text-sm text-gray-500">
+                <span>
+                  <span className="text-white text-lg">
+                    {user.userInfo.followers?.length}
+                  </span>{" "}
+                  Followers
+                </span>{" "}
+                <span>
+                  {" "}
+                  <span className="text-white text-lg">
+                    {user.userInfo.following?.length}
+                  </span>{" "}
+                  Following
+                </span>{" "}
+              </div>
+              <FollowButton userInfo={user.userInfo as User} />
+            </div>
           </div>
           <div>
             {user?.userInfo?.tweet?.map((tweet) => (
