@@ -7,6 +7,10 @@ import Image from "next/image";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { BsImageFill } from "react-icons/bs";
 import FeedHolder from "../Feed/FeedHolder";
+import { graphqlClient } from "@/client/api";
+import { getSignedUrlForTweetQuery } from "@/graphql/query/tweets";
+import axios from "axios";
+import { toast } from "react-hot-toast";
 
 interface InputProps {
   data?: Tweet[];
@@ -16,21 +20,59 @@ const TweetInput: React.FC = () => {
   const { user } = useCurrentUser();
   const { mutate, mutateAsync } = useCreateTweet();
 
+  const [image, setImage] = useState("");
+
+  const handleInputChangeFile = useCallback((input: HTMLInputElement) => {
+    return async (e: Event) => {
+      e.preventDefault();
+      const File: File | undefined | null = input.files?.item(0);
+      if (!File) return;
+      console.log(File.type);
+
+      const { getSignedUrlForTweet } = await graphqlClient.request(
+        getSignedUrlForTweetQuery,
+        {
+          imageName: File.name,
+          imageType: File.type,
+        }
+      );
+
+      if (getSignedUrlForTweet) {
+        toast.loading("Uploading image...", { id: "2" });
+        await axios.put(getSignedUrlForTweet, File, {
+          headers: {
+            "Content-Type": File.type,
+          },
+        });
+        toast.success("Upload completed", { id: "2" });
+        const url = new URL(getSignedUrlForTweet);
+        const myFilePath = `${url.origin}${url.pathname}`;
+        setImage(myFilePath);
+      }
+    };
+  }, []);
+
   const handleSelectImage = useCallback(() => {
     const input = document.createElement("input");
     input.setAttribute("type", "file");
     input.setAttribute("accept", "image/*");
+
+    const handleFn = handleInputChangeFile(input);
+
+    input.addEventListener("change", handleFn);
     input.click();
   }, []);
 
   const [content, setContent] = useState("");
 
-  const handleCreateTweet = useCallback(async () => {
-    await mutateAsync({
+  const handleCreateTweet = useCallback(() => {
+    mutate({
       content,
+      imageURL: image,
     });
     setContent("");
-  }, [content, mutateAsync]);
+    setImage("");
+  }, [content, mutate, image]);
   return (
     <>
       <div className="grid grid-cols-12 gap-3 p-4">
@@ -54,6 +96,7 @@ const TweetInput: React.FC = () => {
               placeholder="What is happening?"
               className="w-full text-xl outline-none border-none bg-transparent"
             ></textarea>
+            {image && <Image src={image} height={300} width={300} alt={""} />}
           </div>
           <div className="flex justify-between items-center mt-2">
             <BsImageFill

@@ -1,4 +1,3 @@
-
 import Image from "next/image";
 import React, { FC } from "react";
 import { BiMessageRoundedDots } from "react-icons/bi";
@@ -38,6 +37,14 @@ const FeedCard: FC<FeedCardProps> = (props) => {
             </h5>
           </Link>
           <p className="text-xs">{data.content}</p>
+          {data.imageURL && (
+            <Image
+              src={data.imageURL}
+              height={400}
+              width={400}
+              alt="tweet-image "
+            />
+          )}
           <div className=" mt-4 text-lg flex items-center w-[70%] justify-between">
             <div>
               <BiMessageRoundedDots />

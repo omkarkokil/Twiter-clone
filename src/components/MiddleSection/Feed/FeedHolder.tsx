@@ -24,7 +24,6 @@ interface TweetArray {
 
 const FeedHolder: FC<TweetArray> = (props) => {
   // const tweet = await getServerSideProps();
-  console.log(props);
 
   const { tweets = props.tweets } = useGetAllTweets();
 
